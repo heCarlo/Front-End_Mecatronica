@@ -7,8 +7,9 @@ interface LineChartProps {
   yAxisSuffix: string;
   chartTitle: string;
   data: number[];
-  chartStyle?: StyleProp<ViewStyle>; // Nova propriedade para o estilo do gráfico
-  titleStyle?: StyleProp<TextStyle>; // Nova propriedade para o estilo do título
+  chartXData: string[];
+  chartStyle?: StyleProp<ViewStyle>;
+  titleStyle?: StyleProp<TextStyle>;
 }
 
 const chartConfig = {
@@ -37,22 +38,15 @@ const chartConfig = {
   },
 };
 
-const LineChartComponent: React.FC<LineChartProps> = ({ yAxisLabel, yAxisSuffix, chartTitle, data, chartStyle, titleStyle }) => {
+const LineChartComponent: React.FC<LineChartProps> = ({ yAxisLabel, yAxisSuffix, chartTitle, data, chartXData, chartStyle, titleStyle }) => {
   const [chartData, setChartData] = useState(data);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Não alterar os dados aleatoriamente aqui
-    }, 5000);
+    setChartData(data.slice(-7));
+  }, [data]);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  const currentDate = new Date();
-  const hours = Array.from({ length: 8 }, (_, index) => {
-    const newDate = new Date(currentDate.getTime() - index * 60 * 60 * 1000);
-    return `${newDate.getHours()}:${newDate.getMinutes()}`;
-  });
+  // Extrai apenas o horário das strings de data
+  const hours = chartXData.map((dateTime) => new Date(dateTime).toLocaleTimeString().slice(0, 5)).slice(-7);
 
   const convertedStyle = StyleSheet.flatten(chartStyle as StyleProp<ViewStyle>);
   const convertedTitleStyle = StyleSheet.flatten(titleStyle as StyleProp<TextStyle>);

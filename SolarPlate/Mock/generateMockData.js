@@ -1,30 +1,30 @@
 const fs = require('fs');
+const faker = require('faker');
 
 const generateRandomData = (length) => {
-  const currentDate = new Date();
   const data = [];
 
   for (let i = 0; i < length; i++) {
-    const randomDate = new Date(currentDate - i * 24 * 60 * 60 * 1000); // Subtract days
-    const formattedDate = `${randomDate.getFullYear()}-${(randomDate.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}-${randomDate.getDate().toString().padStart(2, '0')}T${randomDate
-      .toTimeString()
-      .slice(0, 8)}`;
+    const randomDate = faker.date.between(
+      new Date('2022-01-01'),
+      new Date('2023-12-31')
+    );
+
+    const formattedDate = randomDate.toISOString().slice(0, 19).replace('T', ' ');
 
     data.push({
       created_at: formattedDate,
       value: Math.floor(Math.random() * 100) + 1,
-      sensort: Number((Math.random() * 5.5).toFixed(1)), // Limit sensort to a maximum of 5.5 and convert to number
+      sensort: Number((Math.random() * 5.5).toFixed(1)),
       servo_vertical: Math.floor(Math.random() * 100),
-      secury_mode: true, // Assuming it's a static value for all entries
+      secury_mode: true,
     });
   }
 
   return data;
 };
 
-const jsonData = generateRandomData(30); // Change the length as needed
+const jsonData = generateRandomData(30);
 const jsonString = JSON.stringify(jsonData, null, 2);
 
 fs.writeFileSync('mockData.json', jsonString, 'utf-8');

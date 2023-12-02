@@ -1,5 +1,12 @@
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import LineChartComponent from './Components/LineChart/LineChartComponent';
 import ToggleSwitch from './Components/ToggleSwitch/toggleSwitch';
 import mockData from './Mock/mockData.json';
@@ -15,12 +22,51 @@ interface Record {
   secury_mode: boolean;
 }
 
-const getLastTenRecords = (data: Record[]) => data.slice(0, 10);
+const getLastTenRecords = (data: Record[]) => data.slice(0, 7);
 
 export default function App() {
-  const lastTenRecords = getLastTenRecords(mockData);
-  const lastTenServoVertical = lastTenRecords.map((record) => record.servo_vertical);
-  const lastTenSensorTensao = lastTenRecords.map((record) => record.sensort);
+  const [showServoVertical, setShowServoVertical] = useState(true);
+  const [data, setData] = useState(getLastTenRecords(mockData));
+  const [chartComponentKey, setChartComponentKey] = useState(1);
+
+  const chartTitle = showServoVertical ? 'Servo Vertical' : 'Tensão';
+
+  const chartData = data.map((record) =>
+    showServoVertical ? record.servo_vertical : record.sensort
+  );
+
+  // Adicione uma propriedade x para o eixo x (tempo, por exemplo)
+  const chartXData = data.map((record) => record.created_at);
+
+  const toggleChart = () => {
+    setShowServoVertical(!showServoVertical);
+    fetchDataFromJson();
+  };
+
+  const fetchDataFromJson = () => {
+    const newData = getLastTenRecords(mockData);
+    setData(newData);
+    setChartComponentKey((prevKey) => prevKey + 1);
+  };
+
+  useEffect(() => {
+    setChartComponentKey((prevKey) => prevKey + 1);
+  }, [data]);
+
+  const checkForMockDataUpdate = () => {
+    const mockDataString = JSON.stringify(mockData);
+    const dataString = JSON.stringify(data);
+
+    if (mockDataString !== dataString) {
+      fetchDataFromJson();
+    }
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(checkForMockDataUpdate, 500);
+
+    return () => clearInterval(intervalId);
+  }, [data]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -28,26 +74,25 @@ export default function App() {
         <Text style={styles.headerText}>SolarPlate Monitoring</Text>
       </View>
 
-      <View style={styles.sectionContainer}>
+      <View style={[styles.sectionContainer, styles.chartMargin]}>
         <LineChartComponent
+          key={chartComponentKey}
           yAxisLabel={''}
-          yAxisSuffix={'º'}
-          chartTitle={'Servo Vertical'}
-          data={lastTenServoVertical}
+          yAxisSuffix={showServoVertical ? 'º' : 'V'}
+          chartTitle={chartTitle}
+          data={chartData}
+          chartXData={chartXData} // Adicione a propriedade para o eixo x
           chartStyle={styles.chartStyle}
           titleStyle={styles.chartTitleStyle}
         />
       </View>
 
-      <View style={[styles.sectionContainer, styles.chartMargin]}>
-        <LineChartComponent
-          yAxisLabel={''}
-          yAxisSuffix={'V'}
-          chartTitle={'Sensor Tensão'}
-          data={lastTenSensorTensao}
-          chartStyle={styles.chartStyle}
-          titleStyle={styles.chartTitleStyle}
-        />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
+          <Text style={styles.toggleButtonText}>
+            {showServoVertical ? 'Observar Tensão' : 'Observar Angulação'}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <ToggleSwitch />
@@ -81,6 +126,21 @@ const styles = StyleSheet.create({
   },
   chartMargin: {
     marginBottom: 10,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  toggleButton: {
+    backgroundColor: 'lightblue',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  toggleButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#3f51b5',
   },
   infoContainer: {
     width: '100%',
