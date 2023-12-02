@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
 import LineChartComponent from './Components/LineChart/LineChartComponent';
 import ToggleSwitch from './Components/ToggleSwitch/toggleSwitch';
 import mockData from './Mock/mockData.json';
 
-// Defina o tipo para os registros do JSON
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 interface Record {
   created_at: string;
   value: number;
@@ -13,16 +15,10 @@ interface Record {
   secury_mode: boolean;
 }
 
-// Função para extrair os últimos 10 registros do JSON
-const getLastTenRecords = (data: Record[]) => {
-  const lastTenRecords = data.slice(0, 10);
-  return lastTenRecords;
-};
+const getLastTenRecords = (data: Record[]) => data.slice(0, 10);
 
 export default function App() {
-  // Extrair os últimos 10 registros para "Servo Vertical" e "Sensor Tensão"
   const lastTenRecords = getLastTenRecords(mockData);
-
   const lastTenServoVertical = lastTenRecords.map((record) => record.servo_vertical);
   const lastTenSensorTensao = lastTenRecords.map((record) => record.sensort);
 
@@ -38,22 +34,20 @@ export default function App() {
           yAxisSuffix={'º'}
           chartTitle={'Servo Vertical'}
           data={lastTenServoVertical}
+          chartStyle={styles.chartStyle}
+          titleStyle={styles.chartTitleStyle}
         />
-        <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Angle of the Plate: 40°</Text>
-        </View>
       </View>
 
-      <View style={styles.sectionContainer}>
+      <View style={[styles.sectionContainer, styles.chartMargin]}>
         <LineChartComponent
           yAxisLabel={''}
           yAxisSuffix={'V'}
           chartTitle={'Sensor Tensão'}
           data={lastTenSensorTensao}
+          chartStyle={styles.chartStyle}
+          titleStyle={styles.chartTitleStyle}
         />
-        <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Voltage Sensor</Text>
-        </View>
       </View>
 
       <ToggleSwitch />
@@ -63,15 +57,15 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#f0f0f0',
-    paddingTop: 50,
     paddingHorizontal: 16,
   },
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    marginTop: 50,
+    marginBottom: 10,
   },
   headerText: {
     fontSize: 24,
@@ -85,6 +79,9 @@ const styles = StyleSheet.create({
     padding: 16,
     elevation: 3,
   },
+  chartMargin: {
+    marginBottom: 10,
+  },
   infoContainer: {
     width: '100%',
     height: 50,
@@ -96,5 +93,16 @@ const styles = StyleSheet.create({
   },
   infoText: {
     color: '#333',
+  },
+  chartStyle: {
+    backgroundColor: 'lightblue',
+    maxWidth: windowWidth - 32,
+    maxHeight: windowHeight - 32,
+  },
+  chartTitleStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#3f51b5',
   },
 });
