@@ -1,6 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { LineChart } from 'react-native-chart-kit';
-import { View, Text, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { LineChart } from "react-native-chart-kit";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
 
 interface LineChartProps {
   yAxisLabel: string;
@@ -13,8 +20,8 @@ interface LineChartProps {
 }
 
 const chartConfig = {
-  backgroundGradientFrom: '#fff',
-  backgroundGradientTo: '#fff',
+  backgroundGradientFrom: "#fff",
+  backgroundGradientTo: "#fff",
   color: (opacity = 1) => `rgba(63, 81, 181, ${opacity})`,
   strokeWidth: 2,
   decimalPlaces: 0,
@@ -23,9 +30,9 @@ const chartConfig = {
     borderRadius: 16,
   },
   propsForDots: {
-    r: '6',
-    strokeWidth: '2',
-    stroke: '#3f51b5',
+    r: "6",
+    strokeWidth: "2",
+    stroke: "#3f51b5",
   },
   propsForVerticalLabels: {
     fontSize: 10,
@@ -34,11 +41,19 @@ const chartConfig = {
     fontSize: 10,
   },
   propsForBackgroundLines: {
-    strokeDasharray: '',
+    strokeDasharray: "",
   },
 };
 
-const LineChartComponent: React.FC<LineChartProps> = ({ yAxisLabel, yAxisSuffix, chartTitle, data, chartXData, chartStyle, titleStyle }) => {
+const LineChartComponent: React.FC<LineChartProps> = ({
+  yAxisLabel,
+  yAxisSuffix,
+  chartTitle,
+  data,
+  chartXData,
+  chartStyle,
+  titleStyle,
+}) => {
   const [chartData, setChartData] = useState(data);
 
   useEffect(() => {
@@ -46,10 +61,14 @@ const LineChartComponent: React.FC<LineChartProps> = ({ yAxisLabel, yAxisSuffix,
   }, [data]);
 
   // Extrai apenas o horário das strings de data
-  const hours = chartXData.map((dateTime) => new Date(dateTime).toLocaleTimeString().slice(0, 5)).slice(-7);
+  const hours = chartXData
+    .map((dateTime) => new Date(dateTime).toLocaleTimeString().slice(0, 5))
+    .slice(-7);
 
   const convertedStyle = StyleSheet.flatten(chartStyle as StyleProp<ViewStyle>);
-  const convertedTitleStyle = StyleSheet.flatten(titleStyle as StyleProp<TextStyle>);
+  const convertedTitleStyle = StyleSheet.flatten(
+    titleStyle as StyleProp<TextStyle>
+  );
 
   return (
     <View style={[styles.chartContainer, convertedStyle]}>
@@ -77,18 +96,18 @@ const LineChartComponent: React.FC<LineChartProps> = ({ yAxisLabel, yAxisSuffix,
 
 const styles = StyleSheet.create({
   chartContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 16,
     elevation: 3,
   },
   chartTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    color: '#3f51b5',
+    color: "#3f51b5",
   },
 });
 

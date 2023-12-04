@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,13 +6,13 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
-} from 'react-native';
-import LineChartComponent from './Components/LineChart/LineChartComponent';
-import ToggleSwitch from './Components/ToggleSwitch/toggleSwitch';
-import mockData from './Mock/mockData.json';
+} from "react-native";
+import LineChartComponent from "./Components/LineChart/LineChartComponent";
+import ToggleSwitch from "./Components/ToggleSwitch/toggleSwitch";
+import mockData from "./Mock/mockData.json";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 interface Record {
   created_at: string;
@@ -29,7 +29,7 @@ export default function App() {
   const [data, setData] = useState(getLastTenRecords(mockData));
   const [chartComponentKey, setChartComponentKey] = useState(1);
 
-  const chartTitle = showServoVertical ? 'Servo Vertical' : 'Tensão';
+  const chartTitle = showServoVertical ? "Servo Vertical" : "Tensão";
 
   const chartData = data.map((record) =>
     showServoVertical ? record.servo_vertical : record.sensort
@@ -77,22 +77,22 @@ export default function App() {
       <View style={[styles.sectionContainer, styles.chartMargin]}>
         <LineChartComponent
           key={chartComponentKey}
-          yAxisLabel={''}
-          yAxisSuffix={showServoVertical ? 'º' : 'V'}
+          yAxisLabel={""}
+          yAxisSuffix={showServoVertical ? "º" : "V"}
           chartTitle={chartTitle}
           data={chartData}
           chartXData={chartXData} // Adicione a propriedade para o eixo x
           chartStyle={styles.chartStyle}
           titleStyle={styles.chartTitleStyle}
         />
-      </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
-          <Text style={styles.toggleButtonText}>
-            {showServoVertical ? 'Observar Tensão' : 'Observar Angulação'}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
+            <Text style={styles.toggleButtonText}>
+              {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ToggleSwitch />
@@ -103,23 +103,22 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     paddingHorizontal: 16,
   },
   headerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 50,
-    marginBottom: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 55,
+    marginBottom: 30,
   },
   headerText: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
   },
   sectionContainer: {
-    marginBottom: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 16,
     elevation: 3,
@@ -128,41 +127,44 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 20,
   },
   toggleButton: {
-    backgroundColor: 'lightblue',
+    backgroundColor: "lightblue",
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     borderRadius: 5,
   },
   toggleButtonText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#3f51b5',
+    fontWeight: "bold",
+    color: "#3f51b5",
+    justifyContent: "center",
+    textAlign: "center",
+    width: "auto",
   },
   infoContainer: {
-    width: '100%',
+    width: "100%",
     height: 50,
     borderRadius: 10,
-    backgroundColor: '#e0e0e0',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#e0e0e0",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 10,
   },
   infoText: {
-    color: '#333',
+    color: "#333",
   },
   chartStyle: {
-    backgroundColor: 'lightblue',
+    backgroundColor: "lightblue",
     maxWidth: windowWidth - 32,
     maxHeight: windowHeight - 32,
   },
   chartTitleStyle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    color: '#3f51b5',
+    color: "#3f51b5",
   },
 });
