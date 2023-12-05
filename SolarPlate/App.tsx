@@ -62,31 +62,32 @@ export default function App() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>SolarPlate Monitoring</Text>
+        <Text style={styles.headerText}>Solar Plate Monitoring</Text>
       </View>
+      <View style={styles.SecoundContainer}>
+        <View style={[styles.sectionContainer, styles.chartMargin]}>
+          <LineChartComponent
+            key={chartComponentKey}
+            yAxisLabel={""}
+            yAxisSuffix={showServoVertical ? "º" : "V"}
+            chartTitle={chartTitle}
+            data={chartData}
+            chartXData={chartXData}
+            chartStyle={styles.chartStyle}
+            titleStyle={styles.chartTitleStyle}
+          />
 
-      <View style={[styles.sectionContainer, styles.chartMargin]}>
-        <LineChartComponent
-          key={chartComponentKey}
-          yAxisLabel={""}
-          yAxisSuffix={showServoVertical ? "º" : "V"}
-          chartTitle={chartTitle}
-          data={chartData}
-          chartXData={chartXData}
-          chartStyle={styles.chartStyle}
-          titleStyle={styles.chartTitleStyle}
-        />
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
-            <Text style={styles.toggleButtonText}>
-              {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
+              <Text style={styles.toggleButtonText}>
+                {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
 
-      <ToggleSwitch />
+        <ToggleSwitch />
+      </View>
     </ScrollView>
   );
 }
@@ -95,21 +96,25 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "#f0f0f0",
-    paddingHorizontal: 16,
   },
   headerContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 55,
     marginBottom: 30,
+    backgroundColor: "lightblue",
+    paddingTop: 50,
+    paddingBottom: 20
+  },
+  SecoundContainer: {
+    paddingHorizontal: 16,
   },
   headerText: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#333",
+    color: "#3f51b5",
   },
   sectionContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f0f0",
     borderRadius: 10,
     padding: 16,
     elevation: 3,

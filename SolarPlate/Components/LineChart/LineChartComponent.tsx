@@ -83,7 +83,7 @@ const LineChartComponent: React.FC<LineChartProps> = ({
           ],
         }}
         width={347}
-        height={180}
+        height={280}
         yAxisLabel={yAxisLabel}
         yAxisSuffix={yAxisSuffix}
         chartConfig={chartConfig}
