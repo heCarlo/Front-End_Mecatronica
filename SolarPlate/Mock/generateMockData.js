@@ -1,32 +1,36 @@
-const fs = require('fs');
-const faker = require('faker');
+function postData() {
+  const url = 'http://carlosgfkp.pythonanywhere.com/api/sensor-data/create/';
 
-const generateRandomData = (length) => {
-  const data = [];
+  // Generate random values for sensort and servo_vertical
+  const randomSensort = Math.floor(Math.random() * 10); // Example: Random value between 0 and 9
+  const randomServoVertical = Math.floor(Math.random() * 180); // Example: Random value between 0 and 179
 
-  for (let i = 0; i < length; i++) {
-    const randomDate = faker.date.between(
-      new Date('2022-01-01'),
-      new Date('2023-12-31')
-    );
+  const data = {
+    sensort: randomSensort,
+    servo_vertical: randomServoVertical,
+    secury_mode: true
+  };
 
-    const formattedDate = randomDate.toISOString().slice(0, 19).replace('T', ' ');
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(jsonData => {
+    console.log('Data sent successfully:', jsonData);
+  })
+  .catch(error => {
+    console.error('Error sending data:', error.message);
+  });
+}
 
-    data.push({
-      created_at: formattedDate,
-      value: Math.floor(Math.random() * 100) + 1,
-      sensort: Number((Math.random() * 5.5).toFixed(1)),
-      servo_vertical: Math.floor(Math.random() * 100),
-      secury_mode: true,
-    });
-  }
-
-  return data;
-};
-
-const jsonData = generateRandomData(30);
-const jsonString = JSON.stringify(jsonData, null, 2);
-
-fs.writeFileSync('mockData.json', jsonString, 'utf-8');
-
-console.log('Mock data generated and saved to mockData.json');
+// Call the postData function every second
+setInterval(postData, 1000);
