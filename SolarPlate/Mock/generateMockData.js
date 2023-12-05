@@ -1,36 +1,27 @@
-function postData() {
-  const url = 'http://carlosgfkp.pythonanywhere.com/api/sensor-data/create/';
+const fs = require('fs');
+const fetch = require('node-fetch');
 
-  // Generate random values for sensort and servo_vertical
-  const randomSensort = Math.floor(Math.random() * 10); // Example: Random value between 0 and 9
-  const randomServoVertical = Math.floor(Math.random() * 180); // Example: Random value between 0 and 179
+const fetchDataAndSaveToFile = async () => {
+  try {
+    const response = await fetch('http://carlosgfkp.pythonanywhere.com/api/sensor-data/');
 
-  const data = {
-    sensort: randomSensort,
-    servo_vertical: randomServoVertical,
-    secury_mode: true
-  };
-
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  .then(response => {
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error('Erro na requisição');
     }
-    return response.json();
-  })
-  .then(jsonData => {
-    console.log('Data sent successfully:', jsonData);
-  })
-  .catch(error => {
-    console.error('Error sending data:', error.message);
-  });
-}
 
-// Call the postData function every second
-setInterval(postData, 1000);
+    const jsonData = await response.json();
+    
+    // Salva os dados obtidos no arquivo mockData.json
+    const jsonString = JSON.stringify(jsonData, null, 2);
+    fs.writeFileSync('mockData.json', jsonString, 'utf-8');
+
+    console.log('Dados obtidos e salvos em mockData.json');
+  } catch (error) {
+    console.error('Erro ao obter dados da API:', error.message);
+  }
+};
+
+// Chama a função fetchDataAndSaveToFile a cada segundo
+setInterval(() => {
+  fetchDataAndSaveToFile();
+}, 1000);
