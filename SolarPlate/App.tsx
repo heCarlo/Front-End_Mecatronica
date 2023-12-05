@@ -54,7 +54,7 @@ export default function App() {
 
   useEffect(() => {
     // Atualiza os dados a cada segundo
-    const intervalId = setInterval(fetchDataFromJson, 1000);
+    const intervalId = setInterval(fetchDataFromJson, 500);
 
     return () => clearInterval(intervalId);
   }, []);
