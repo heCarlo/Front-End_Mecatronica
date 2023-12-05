@@ -2,7 +2,7 @@ function postData() {
   const url = 'http://carlosgfkp.pythonanywhere.com/api/sensor-data/create/';
 
   // Generate random values for sensort and servo_vertical
-  const randomSensort = Math.floor(Math.random() * 10); // Example: Random value between 0 and 9
+  const randomSensort = Math.floor(Math.random() * 5); // Example: Random value between 0 and 9
   const randomServoVertical = Math.floor(Math.random() * 180); // Example: Random value between 0 and 179
 
   const data = {
