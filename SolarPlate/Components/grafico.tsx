@@ -12,7 +12,9 @@ function Grafico() {
   const [backgroundColor, setBackgroundColor] = useState("#BCE4FD");
   const [textColor, setTextColor] = useState("black"); // Adicionando o estado para a cor do texto
   // const hora = new Date().getHours();
-  let hora = 18; // Para testes manuais
+  const [imageSource, setImageSource] = useState(require("../assets/sol.png"));
+
+  let hora = 11; // Para testes manuais
   const rotationAngle = 0; // Ângulo de rotação desejado
   const Angulo = rotationAngle + 90 + "°";
 
@@ -20,15 +22,18 @@ function Grafico() {
     const isNoite = hora < 6 || hora >= 18;
     setBackgroundColor(isNoite ? "black" : "#BCE4FD");
     setTextColor(isNoite ? "white" : "black");
+    if (isNoite) {
+      setImageSource(require("../assets/lua-crescente.png"));
+    } else {
+      setImageSource(require("../assets/sol.png"));
+    }
+
   }, [hora]);
 
   return (
     <View style={[styles.container, { backgroundColor }]}>
-      <Image source={require("../assets/sol.png")} style={styles.imagem} />
-      <Image
-        source={require("../assets/lua-crescente.png")}
-        style={styles.imagem}
-      />
+      <Image source={imageSource} style={[styles.imagem]} />
+      
       <Image
         source={require("../assets/painel-solar_2.png")}
         style={[
@@ -44,7 +49,8 @@ function Grafico() {
 
 const { width } = Dimensions.get("window");
 const larguraPlaca = 80;
-
+// const hora = new Date().getHours();
+let hora = 1; // Para testes manuais
 const Sol = 80;
 
 const styles = StyleSheet.create({
@@ -53,11 +59,12 @@ const styles = StyleSheet.create({
     width: width,
   },
   imagem: {
+    position:"absolute",
     marginTop: 15,
     width: Sol, // Ajuste de acordo com a largura desejada
     height: Sol, // Ajuste de acordo com a altura desejada
 
-    // left: (((width/12)*hora)-Sol/1.5)
+    left: (((width/12)*hora)-Sol/1.5)
   },
   placaSolar: {
     width: larguraPlaca, // Ajuste de acordo com a largura desejada
