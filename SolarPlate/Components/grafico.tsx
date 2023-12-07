@@ -42,15 +42,15 @@ function Grafico() {
         ]}
       />
       <Text style={[styles.angulo, { color: textColor }]}>{Angulo}</Text>
-      <Text>{hora}</Text>
+      {/* <Text>{hora}</Text> */}
     </View>
   );
 }
 
 const { width } = Dimensions.get("window");
 const larguraPlaca = 80;
-const hora = new Date().getHours();
-// let hora = 18; // Para testes manuais
+// const hora = new Date().getHours();
+let hora = 6; // Para testes manuais
 const Sol = 80;
 
 const styles = StyleSheet.create({
