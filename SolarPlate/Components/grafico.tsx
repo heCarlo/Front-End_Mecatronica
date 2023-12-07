@@ -14,7 +14,7 @@ function Grafico() {
   // const hora = new Date().getHours();
   const [imageSource, setImageSource] = useState(require("../assets/sol.png"));
 
-  let hora = 11; // Para testes manuais
+ // Para testes manuais
   const rotationAngle = 0; // Ângulo de rotação desejado
   const Angulo = rotationAngle + 90 + "°";
 
@@ -49,8 +49,8 @@ function Grafico() {
 
 const { width } = Dimensions.get("window");
 const larguraPlaca = 80;
-// const hora = new Date().getHours();
-let hora = 1; // Para testes manuais
+const hora = new Date().getHours();
+// let hora = 18; // Para testes manuais
 const Sol = 80;
 
 const styles = StyleSheet.create({
@@ -64,7 +64,9 @@ const styles = StyleSheet.create({
     width: Sol, // Ajuste de acordo com a largura desejada
     height: Sol, // Ajuste de acordo com a altura desejada
 
-    left: (((width/12)*hora)-Sol/1.5)
+    //left: (((width/12)*(hora-6))-(Sol/1.5))
+    left: hora >= 6 && hora <18 ? (((width/12)*(hora-6)-(Sol/1.5))):
+    hora <=24 && hora >=18?(((width/12)*(hora-18)-(Sol/1.5))):(((width/12)*(hora+6)-(Sol/1.5)))
   },
   placaSolar: {
     width: larguraPlaca, // Ajuste de acordo com a largura desejada
