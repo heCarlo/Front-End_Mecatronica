@@ -11,7 +11,6 @@ import React from "react";
 function Grafico() {
   const [backgroundColor, setBackgroundColor] = useState("#BCE4FD");
   const [textColor, setTextColor] = useState("black"); // Adicionando o estado para a cor do texto
-  // const hora = new Date().getHours();
   const [imageSource, setImageSource] = useState(require("../assets/sol.png"));
 
  // Para testes manuais
@@ -42,21 +41,21 @@ function Grafico() {
         ]}
       />
       <Text style={[styles.angulo, { color: textColor }]}>{Angulo}</Text>
-      {/* <Text>{hora}</Text> */}
     </View>
   );
 }
 
-const { width } = Dimensions.get("window");
+const { width:larguraDaTela } = Dimensions.get("window"); // estou alterando o nome da dimenção da tela para "larguraDaTela"
+// const { larguraDaTela } = Dimensions.get("window");
 const larguraPlaca = 80;
-// const hora = new Date().getHours();
-let hora = 6; // Para testes manuais
+const hora = new Date().getHours(); // Horario atual 
+// let hora = 18; // Para testes manuais
 const Sol = 80;
 
 const styles = StyleSheet.create({
   container: {
-    height: 300,
-    width: width,
+    height: (larguraDaTela-(larguraDaTela/2.8)),
+    width: larguraDaTela,
   },
   imagem: {
     position:"absolute",
@@ -65,21 +64,21 @@ const styles = StyleSheet.create({
     height: Sol, // Ajuste de acordo com a altura desejada
 
     //left: (((width/12)*(hora-6))-(Sol/1.5))
-    left: hora >= 6 && hora <18 ? (((width/12)*(hora-6)-(Sol/1.5))):
-    hora <=24 && hora >=18?(((width/12)*(hora-18)-(Sol/1.5))):(((width/12)*(hora+6)-(Sol/1.5)))
+    left: hora >= 6 && hora <18 ? (((larguraDaTela/12)*(hora-6)-(Sol/3))):
+    hora <=24 && hora >=18?(((larguraDaTela/12)*(hora-18)-(Sol/3))):(((larguraDaTela/12)*(hora+6)-(Sol/3)))
   },
   placaSolar: {
     width: larguraPlaca, // Ajuste de acordo com a largura desejada
     height: 30, // Ajuste de acordo com a altura desejada
     position: "absolute",
     bottom: 40,
-    left: (width - larguraPlaca) / 2,
+    left: (larguraDaTela - larguraPlaca) / 2,
   },
   angulo: {
     fontSize: 30,
     position: "absolute",
     bottom: 20,
-    left: width / 2 + larguraPlaca / 2,
+    left: larguraDaTela / 2 + larguraPlaca / 2,
   },
 });
 

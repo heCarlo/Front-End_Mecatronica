@@ -7,7 +7,7 @@ function SafetyMode() {
   return (
     
         <View style={styles.container} >
-            <TouchableOpacity onPress={() => navigation.navigate('pageSafetyMode')}>
+            <TouchableOpacity onPress={() => window.alert("deseja ativar o SafetyMode ? ")}>
             <Image
             source={require('../assets/ponto_exclamacao_Azul.png')}
             style={styles.imagem}
@@ -20,13 +20,12 @@ function SafetyMode() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   imagem: {
-    width: 80, // Ajuste de acordo com a largura desejada
-    height: 80, // Ajuste de acordo com a altura desejada
+    width: 70, // Ajuste de acordo com a largura desejada
+    height: 70, // Ajuste de acordo com a altura desejada
   },
   
 });

@@ -7,6 +7,7 @@ import {
   StyleProp,
   ViewStyle,
   TextStyle,
+  Dimensions,
 } from "react-native";
 
 interface LineChartProps {
@@ -69,7 +70,7 @@ const LineChartComponent: React.FC<LineChartProps> = ({
   const convertedTitleStyle = StyleSheet.flatten(
     titleStyle as StyleProp<TextStyle>
   );
-
+  const { width:larguraDaTela } = Dimensions.get("window");
   return (
     <View style={[styles.chartContainer, convertedStyle]}>
       <Text style={[styles.chartTitle, convertedTitleStyle]}>{chartTitle}</Text>
@@ -82,7 +83,7 @@ const LineChartComponent: React.FC<LineChartProps> = ({
             },
           ],
         }}
-        width={347}
+        width={larguraDaTela-(larguraDaTela*0.08)}
         height={280}
         yAxisLabel={yAxisLabel}
         yAxisSuffix={yAxisSuffix}
@@ -97,10 +98,10 @@ const LineChartComponent: React.FC<LineChartProps> = ({
 const styles = StyleSheet.create({
   chartContainer: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 0,
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 16,
+    padding: 10,
     elevation: 3,
   },
   chartTitle: {
