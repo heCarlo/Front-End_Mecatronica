@@ -6,11 +6,11 @@ import Botao from "../Components/Button";
 
 const { width } = Dimensions.get('window');
 
-const HomeScreen = ({ navigation }) => {
+const AboutScreen = ({ navigation }) => {
   return (
     <View>
       <Grafico />
-      <Button title="teste" onPress={() => navigation.navigate("pageSafetyMode")} />
+      <Button title="teste" onPress={() => navigation.navigate("Sobre")} />
       <View style={styles.btns2}>
         <SafetyMode/>
         <Botao title="Mais Informações" onPress={() => navigation.navigate("Sobre")} />
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
   
 });
 
-export default HomeScreen;
+export default AboutScreen;

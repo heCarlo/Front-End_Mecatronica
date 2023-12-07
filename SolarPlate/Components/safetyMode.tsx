@@ -6,14 +6,14 @@ function SafetyMode() {
     const navigation = useNavigation();
   return (
     
-        <View style={styles.container} >
-            <TouchableOpacity onPress={() => window.alert("deseja ativar o SafetyMode ? ")}>
-            <Image
-            source={require('../assets/ponto_exclamacao_Azul.png')}
-            style={styles.imagem}
-            />
-            </TouchableOpacity>
-        </View>
+    <View style={styles.container} >
+        <TouchableOpacity onPress={() => navigation.navigate('Sobre')}>
+        <Image
+        source={require('../assets/ponto_exclamacao_Azul.png')}
+        style={styles.imagem}
+        />
+        </TouchableOpacity>
+    </View>
     
   );
 }

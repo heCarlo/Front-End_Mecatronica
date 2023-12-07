@@ -49,7 +49,7 @@ const { width:larguraDaTela } = Dimensions.get("window"); // estou alterando o n
 // const { larguraDaTela } = Dimensions.get("window");
 const larguraPlaca = 80;
 const hora = new Date().getHours(); // Horario atual 
-// let hora = 18; // Para testes manuais
+// let hora = 8; // Para testes manuais
 const Sol = 80;
 
 const styles = StyleSheet.create({

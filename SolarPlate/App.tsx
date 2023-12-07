@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./pages/Home";
 import AboutScreen from "./pages/About";
 
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Sobre" component={AboutScreen} />
+       
         
       </Stack.Navigator>
     </NavigationContainer>
