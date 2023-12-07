@@ -1,20 +1,38 @@
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, Alert } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 function SafetyMode() {
-    const navigation = useNavigation();
+  const showSafetyModeAlert = () => {
+    Alert.alert(
+      'Ativar SafetyMode',
+      'Deseja ativar o SafetyMode?',
+      [
+        {
+          text: 'Não',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: () => {
+            // Adicione a lógica aqui para o caso 'Sim'
+            console.log('SafetyMode ativado!');
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
   return (
-    
-    <View style={styles.container} >
-        <TouchableOpacity onPress={() => navigation.navigate('Sobre')}>
+    <View style={styles.container}>
+      <TouchableOpacity onPress={showSafetyModeAlert}>
         <Image
-        source={require('../assets/ponto_exclamacao_Azul.png')}
-        style={styles.imagem}
+          source={require('../assets/ponto_exclamacao_Azul.png')}
+          style={styles.imagem}
         />
-        </TouchableOpacity>
+      </TouchableOpacity>
     </View>
-    
   );
 }
 
