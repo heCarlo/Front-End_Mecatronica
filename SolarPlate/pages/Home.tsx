@@ -81,15 +81,17 @@ export default function App() {
           />
           <View style={styles.teste}>
           <SafetyMode/>
-          <View style={styles.buttonContainer}>
-            
-            <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
-              <Text style={styles.toggleButtonText}>
-                {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
-              </Text>
-            </TouchableOpacity>
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
+                <Text style={styles.toggleButtonText}>
+                  {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
           </View>
-          </View>
+
         </View>
       </View>
     </ScrollView>
@@ -106,7 +108,8 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     justifyContent:"space-between",
     width:(windowWidth-windowWidth*0.2),
-    padding:(windowWidth*0.02)
+    padding:(windowWidth*0.02),
+    alignItems:"center",
   },
   headerContainer: {
     justifyContent: "center",
@@ -136,14 +139,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonContainer: {
+    display:"flex",
+    flexDirection:"row",
+    justifyContent:"center",
     alignItems: "center",
     marginTop: 20,
   },
   toggleButton: {
     backgroundColor: "lightblue",
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 5,
+    marginBottom:20,
   },
   toggleButtonText: {
     fontSize: 16,

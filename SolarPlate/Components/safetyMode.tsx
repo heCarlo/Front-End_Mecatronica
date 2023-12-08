@@ -1,8 +1,9 @@
+import React, { useState } from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, Alert } from 'react-native';
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
 
 function SafetyMode() {
+  const [safetyModeAtivado, setSafetyModeAtivado] = useState(false);
+
   const showSafetyModeAlert = () => {
     Alert.alert(
       'Ativar SafetyMode',
@@ -15,8 +16,29 @@ function SafetyMode() {
         {
           text: 'Sim',
           onPress: () => {
-            // Adicione a lógica aqui para o caso 'Sim'
-            console.log('SafetyMode ativado!');
+            window.alert('SafetyMode ativado!');
+            setSafetyModeAtivado(true);
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const showDesativarSafetyModeAlert = () => {
+    Alert.alert(
+      'Desativar SafetyMode',
+      'Deseja desativar o SafetyMode?',
+      [
+        {
+          text: 'Não',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: () => {
+            window.alert('SafetyMode desativado!');
+            setSafetyModeAtivado(false);
           },
         },
       ],
@@ -26,9 +48,9 @@ function SafetyMode() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={showSafetyModeAlert}>
+      <TouchableOpacity onPress={safetyModeAtivado ? showDesativarSafetyModeAlert : showSafetyModeAlert}>
         <Image
-          source={require('../assets/ponto_exclamacao_Azul.png')}
+          source={safetyModeAtivado ? require('../assets/ponto_exclamacao_Vermelho.png') : require('../assets/ponto_exclamacao_Azul.png')}
           style={styles.imagem}
         />
       </TouchableOpacity>
@@ -38,14 +60,14 @@ function SafetyMode() {
 
 const styles = StyleSheet.create({
   container: {
+    display:"flex",
     justifyContent: 'center',
     alignItems: 'center',
   },
   imagem: {
-    width: 70, // Ajuste de acordo com a largura desejada
-    height: 70, // Ajuste de acordo com a altura desejada
+    width: 60,
+    height: 60,
   },
-  
 });
 
 export default SafetyMode;
