@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, Text, ScrollView, Dimensions, View } from "react-native";
 import LineChartComponent from "../Components/LineChart/LineChartComponent";
-import ToggleSwitch from "../Components/ToggleSwitch/toggleSwitch";
 import mockData from "../Mock/mockData.json";
 import Grafico from "../Components/grafico";
-import SafetyMode from "../Components/safetyMode";
 
 const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 interface Record {
   id: number;
@@ -32,15 +22,13 @@ export default function App() {
   const [chartComponentKey, setChartComponentKey] = useState(1);
 
   const chartTitle = showServoVertical ? "Servo Vertical" : "Tensão";
-
   const chartData = data.map((record) =>
     showServoVertical ? record.servo_vertical : record.sensort
   );
-
   const chartXData = data.map((record) => record.created_at);
 
   const toggleChart = () => {
-    setShowServoVertical(!showServoVertical);
+    setShowServoVertical((prevShow) => !prevShow);
     fetchDataFromJson();
   };
 
@@ -51,25 +39,27 @@ export default function App() {
   };
 
   useEffect(() => {
-    setChartComponentKey((prevKey) => prevKey + 1);
-  }, [data]);
+    fetchDataFromJson();
+  }, []);
 
   useEffect(() => {
-    // Atualiza os dados a cada segundo
     const intervalId = setInterval(fetchDataFromJson, 500);
-
     return () => clearInterval(intervalId);
   }, []);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Solar Plate Monitoring</Text>
-        <Grafico/>  
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Monitoramento de Placa Solar</Text>
       </View>
-      <View style={styles.SecoundContainer}>
+
+      <View style={styles.headerContainer}>
+        <Grafico />
+      </View>
+
+      <View style={[styles.secondContainer]}>
         <View style={[styles.sectionContainer, styles.chartMargin]}>
-        <LineChartComponent
+          <LineChartComponent
             key={chartComponentKey}
             yAxisLabel={""}
             yAxisSuffix={showServoVertical ? "º" : "V"}
@@ -79,19 +69,17 @@ export default function App() {
             chartStyle={styles.chartStyle}
             titleStyle={styles.chartTitleStyle}
           />
-          <View style={styles.teste}>
-          <SafetyMode/>
 
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
-                <Text style={styles.toggleButtonText}>
-                  {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.toggleButton}
+              onPress={toggleChart}
+            >
+              <Text style={styles.toggleButtonText}>
+                {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
+              </Text>
+            </TouchableOpacity>
           </View>
-
         </View>
       </View>
     </ScrollView>
@@ -101,47 +89,53 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    backgroundColor: "lightblue",
+    position: "relative",
+  },
+  header: {
     backgroundColor: "#f0f0f0",
-  },
-  teste:{
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"space-between",
-    width:(windowWidth-windowWidth*0.2),
-    padding:(windowWidth*0.02),
-    alignItems:"center",
-  },
-  headerContainer: {
+    position: "relative",
+    width: "100%",
+    height: 100,
+    bottom: 20,
+    borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 0,
-    backgroundColor: "lightblue",
-    paddingTop: 5,
-    paddingBottom: 5,
-  },
-  SecoundContainer: {
-    paddingHorizontal: 0,
   },
   headerText: {
-    fontSize: 24,
-    fontWeight: "bold",
     color: "#3f51b5",
+    fontSize: 22,
+    fontWeight: "bold",
+    paddingTop: 40
+  },
+  headerContainer: {},
+  secondContainer: {
+    borderRadius: 10,
+    paddingTop: 10,
+    position: "absolute",
+    zIndex: 1,
+    top: 360,
+    width: "95%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
   },
   sectionContainer: {
-    display:"flex",
-    alignItems:"center",
+    display: "flex",
+    alignItems: "center",
     backgroundColor: "#f0f0f0",
-    borderRadius: 10,
-    padding: 2,
-    elevation: 3,
+    borderRadius: 70,
+    paddingHorizontal: 20,
+    paddingTop: 30,
+    height: 510
   },
   chartMargin: {
     marginBottom: 10,
   },
   buttonContainer: {
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"center",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
     alignItems: "center",
     marginTop: 20,
   },
@@ -150,7 +144,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 5,
-    marginBottom:20,
+    marginBottom: 20,
   },
   toggleButtonText: {
     fontSize: 16,
@@ -173,9 +167,7 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   chartStyle: {
-    backgroundColor: "lightblue",
-    maxWidth: windowWidth, // Tamanho da área ao redor do gráfico
-    maxHeight: windowHeight - 32,
+    backgroundColor: "#f0f0f0",
   },
   chartTitleStyle: {
     fontSize: 18,

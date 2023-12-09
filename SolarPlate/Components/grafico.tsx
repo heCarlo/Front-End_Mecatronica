@@ -9,7 +9,7 @@ import {
 import React from "react";
 
 function Grafico() {
-  const [backgroundColor, setBackgroundColor] = useState("#BCE4FD");
+  const [backgroundColor, setBackgroundColor] = useState("lightblue");
   const [textColor, setTextColor] = useState("black"); // Adicionando o estado para a cor do texto
   const [imageSource, setImageSource] = useState(require("../assets/sol.png"));
 
@@ -19,7 +19,7 @@ function Grafico() {
 
   useEffect(() => {
     const isNoite = hora < 6 || hora >= 18;
-    setBackgroundColor(isNoite ? "black" : "#BCE4FD");
+    setBackgroundColor(isNoite ? "darkblue" : "lightblue");
     setTextColor(isNoite ? "white" : "black");
     if (isNoite) {
       setImageSource(require("../assets/lua-crescente.png"));

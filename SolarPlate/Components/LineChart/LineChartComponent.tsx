@@ -21,8 +21,8 @@ interface LineChartProps {
 }
 
 const chartConfig = {
-  backgroundGradientFrom: "#fff",
-  backgroundGradientTo: "#fff",
+  backgroundGradientFrom: "#f0f0f0",
+  backgroundGradientTo: "#f0f0f0",
   color: (opacity = 1) => `rgba(63, 81, 181, ${opacity})`,
   strokeWidth: 2,
   decimalPlaces: 0,
@@ -83,7 +83,7 @@ const LineChartComponent: React.FC<LineChartProps> = ({
             },
           ],
         }}
-        width={larguraDaTela-(larguraDaTela*0.08)}
+        width={larguraDaTela-(larguraDaTela*0.1)}
         height={280}
         yAxisLabel={yAxisLabel}
         yAxisSuffix={yAxisSuffix}
@@ -99,16 +99,16 @@ const styles = StyleSheet.create({
   chartContainer: {
     alignItems: "center",
     marginBottom: 0,
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f0f0",
     borderRadius: 10,
-    padding: 10,
-    elevation: 3,
+    paddingRight: 30
   },
   chartTitle: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
     color: "#3f51b5",
+    marginLeft: 30
   },
 });
 
