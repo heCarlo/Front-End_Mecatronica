@@ -32,4 +32,4 @@ function postData() {
 }
 
 // Call the postData function every second
-setInterval(postData, 3000);
+setInterval(postData, 5000);

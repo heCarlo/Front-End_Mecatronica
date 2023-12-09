@@ -4,7 +4,7 @@ from app.views.users.deleteUserView import DeleteUserView
 from app.views.users.getUserView import GetUserView
 from app.views.users.listUserView import ListUserView
 from app.views.users.updateUserView import UpdateUserView
-from app.views.sensors.receiveSensorDataView import ReceiveSensorDataGetByIdView, ReceiveSensorDataPostView, ReceiveSensorDataGetView, ReceiveSensorDataPutView, ReceiveSensorDataDeleteView, SecuryModeCreateView
+from app.views.sensors.receiveSensorDataView import ReceiveSensorDataGetByIdView, ReceiveSensorDataPostView, ReceiveSensorDataGetView, ReceiveSensorDataPutView, ReceiveSensorDataDeleteView, SecuryModeCreateView, SecuryModeRetrieveUpdateDestroyView
 
 urlpatterns = [
     # Rotas para usuários
@@ -21,6 +21,7 @@ urlpatterns = [
     path('sensor-data/<int:pk>/delete/', ReceiveSensorDataDeleteView.as_view(), name='sensor-data-delete'),
     path('sensor-data/<int:pk>/', ReceiveSensorDataGetByIdView.as_view(), name='sensor-data-get'),
     
-    path('sensor-data/create/secury-mode', SecuryModeCreateView.as_view(), name='secury_mode_create'),
+    path('secury-mode/', SecuryModeCreateView.as_view(), name='secury-mode-create'),
+    path('secury-mode/<int:pk>/', SecuryModeRetrieveUpdateDestroyView.as_view(), name='secury-mode-retrieve-update-destroy'),
 
 ]

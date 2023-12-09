@@ -11,7 +11,7 @@ import {
 import LineChartComponent from "../Components/LineChartComponent";
 import mockData from "../Mock/mockData.json";
 import Grafico from "../Components/VisualGraph";
-import SafetyIndicator from "../Components/SafetyIndicator"; // Importa o novo componente
+import SafetyIndicator from "../Components/SafetyIndicator";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -22,14 +22,13 @@ interface Record {
   created_at: string;
 }
 
-const getLastTenRecords = (data: Record[]) => data.slice(0, 7);
-
 export default function App() {
   const [showServoVertical, setShowServoVertical] = useState(true);
-  const [data, setData] = useState(getLastTenRecords(mockData));
+  const [data, setData] = useState(mockData);
   const [chartComponentKey, setChartComponentKey] = useState(1);
   const [backgroundColor, setBackgroundColor] = useState("lightblue");
   const [securyMode, setSecuryMode] = useState(false);
+  const [initialServoVertical, setInitialServoVertical] = useState(0);
 
   const chartTitle = showServoVertical ? "Servo Vertical" : "Tensão";
   const chartData = data.map((record) =>
@@ -64,23 +63,16 @@ export default function App() {
 
   const toggleSecuryMode = async () => {
     try {
-      // Altera o valor do securyMode localmente
       setSecuryMode((prevMode) => !prevMode);
 
-      // Gera um valor aleatório para sensort e servo_vertical (substitua por lógica real)
-      const randomSensort = Math.floor(Math.random() * 5);
-      const randomServoVertical = Math.floor(Math.random() * 180);
-
-      const url =
-        "http://carlosgfkp.pythonanywhere.com/api/sensor-data/create/secury-mode";
+      const url = "http://carlosgfkp.pythonanywhere.com/api/secury-mode/1/";
 
       const data = {
-        secury_mode: !securyMode, // Altere aqui conforme necessário
+        secury_mode: !securyMode,
       };
 
-      // Envia a requisição POST para o servidor
       const response = await fetch(url, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -94,7 +86,6 @@ export default function App() {
       const jsonData = await response.json();
       console.log("Data sent successfully:", jsonData);
 
-      // Adiciona um alerta para informar o usuário sobre a alteração no modo de segurança
       Alert.alert(
         "Modo de Segurança",
         `Modo de segurança ${
@@ -108,9 +99,14 @@ export default function App() {
   };
 
   const fetchDataFromJson = () => {
-    const newData = getLastTenRecords(mockData);
+    const newData = [...mockData]; // Criar uma cópia da array para evitar mutações inesperadas
     setData(newData);
     setChartComponentKey((prevKey) => prevKey + 1);
+
+    // Atualiza o valor inicial de servoVertical
+    if (newData.length > 0) {
+      setInitialServoVertical(newData[0].servo_vertical);
+    }
   };
 
   useEffect(() => {
@@ -118,7 +114,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const intervalId = setInterval(fetchDataFromJson, 500);
+    const intervalId = setInterval(fetchDataFromJson, 1000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -126,7 +122,6 @@ export default function App() {
     const hora = new Date().getHours();
     const isNoite = hora < 6 || hora >= 18;
 
-    // Atualiza a cor de fundo com base no horário
     setBackgroundColor(isNoite ? "darkblue" : "lightblue");
   }, []);
 
@@ -139,7 +134,8 @@ export default function App() {
       </View>
 
       <View style={styles.headerContainer}>
-        <Grafico />
+        {/* Passa initialServoVertical como propriedade para o componente Grafico */}
+        <Grafico servo_vertical={initialServoVertical} />
       </View>
 
       <View style={styles.secondContainer}>
@@ -162,15 +158,11 @@ export default function App() {
               </Text>
             </TouchableOpacity>
 
-            {/* Adiciona o indicador de segurança */}
-
             <TouchableOpacity
               style={styles.toggleButton}
               onPress={confirmToggleSecuryMode}
             >
-              <Text style={styles.toggleButtonText}>
-                Modo Segurança
-              </Text>
+              <Text style={styles.toggleButtonText}>Modo Segurança</Text>
               <SafetyIndicator active={securyMode} />
             </TouchableOpacity>
           </View>
@@ -189,9 +181,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f0f0",
     position: "relative",
     width: "100%",
-    height: 100,
+    height: 110,
     bottom: 20,
-    borderRadius: 50,
+    borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -229,7 +221,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
-    gap: 20
+    gap: 20,
   },
   toggleButton: {
     backgroundColor: "lightblue",
@@ -240,7 +232,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   toggleButtonText: {
     fontSize: 16,
