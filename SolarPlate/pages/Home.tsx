@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, TouchableOpacity, Text, ScrollView, Dimensions, View } from "react-native";
-import LineChartComponent from "../Components/LineChart/LineChartComponent";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  ScrollView,
+  Dimensions,
+  View,
+} from "react-native";
+import LineChartComponent from "../Components/LineChartComponent";
 import mockData from "../Mock/mockData.json";
-import Grafico from "../Components/grafico";
+import Grafico from "../Components/VisualGraph";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -20,6 +27,7 @@ export default function App() {
   const [showServoVertical, setShowServoVertical] = useState(true);
   const [data, setData] = useState(getLastTenRecords(mockData));
   const [chartComponentKey, setChartComponentKey] = useState(1);
+  const [backgroundColor, setBackgroundColor] = useState("lightblue");
 
   const chartTitle = showServoVertical ? "Servo Vertical" : "Tensão";
   const chartData = data.map((record) =>
@@ -47,8 +55,16 @@ export default function App() {
     return () => clearInterval(intervalId);
   }, []);
 
+  useEffect(() => {
+    const hora = new Date().getHours();
+    const isNoite = hora < 6 || hora >= 18;
+
+    // Atualiza a cor de fundo com base no horário
+    setBackgroundColor(isNoite ? "darkblue" : "lightblue");
+  }, []);
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={[styles.container, { backgroundColor }]}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Monitoramento de Placa Solar</Text>
       </View>
@@ -57,8 +73,8 @@ export default function App() {
         <Grafico />
       </View>
 
-      <View style={[styles.secondContainer]}>
-        <View style={[styles.sectionContainer, styles.chartMargin]}>
+      <View style={styles.secondContainer}>
+        <View style={styles.sectionContainer}>
           <LineChartComponent
             key={chartComponentKey}
             yAxisLabel={""}
@@ -71,10 +87,7 @@ export default function App() {
           />
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.toggleButton}
-              onPress={toggleChart}
-            >
+            <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
               <Text style={styles.toggleButtonText}>
                 {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
               </Text>
@@ -89,7 +102,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "lightblue",
     position: "relative",
   },
   header: {
@@ -106,7 +118,7 @@ const styles = StyleSheet.create({
     color: "#3f51b5",
     fontSize: 22,
     fontWeight: "bold",
-    paddingTop: 40
+    paddingTop: 40,
   },
   headerContainer: {},
   secondContainer: {
@@ -127,9 +139,7 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     paddingHorizontal: 20,
     paddingTop: 30,
-    height: 510
-  },
-  chartMargin: {
+    height: 510,
     marginBottom: 10,
   },
   buttonContainer: {
