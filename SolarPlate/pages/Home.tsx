@@ -10,6 +10,7 @@ import {
 import LineChartComponent from "../Components/LineChartComponent";
 import mockData from "../Mock/mockData.json";
 import Grafico from "../Components/VisualGraph";
+import SafetyMode from "../Components/safetyMode";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -87,6 +88,7 @@ export default function App() {
           />
 
           <View style={styles.buttonContainer}>
+            <SafetyMode/>
             <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
               <Text style={styles.toggleButtonText}>
                 {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
@@ -145,16 +147,16 @@ const styles = StyleSheet.create({
   buttonContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
+    gap: 60
   },
   toggleButton: {
     backgroundColor: "lightblue",
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 5,
-    marginBottom: 20,
   },
   toggleButtonText: {
     fontSize: 16,
