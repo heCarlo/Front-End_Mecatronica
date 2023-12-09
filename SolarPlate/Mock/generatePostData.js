@@ -8,7 +8,6 @@ function postData() {
   const data = {
     sensort: randomSensort,
     servo_vertical: randomServoVertical,
-    secury_mode: true
   };
 
   fetch(url, {
@@ -33,4 +32,4 @@ function postData() {
 }
 
 // Call the postData function every second
-setInterval(postData, 1000);
+setInterval(postData, 3000);

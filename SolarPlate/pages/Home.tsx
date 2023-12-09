@@ -6,11 +6,12 @@ import {
   ScrollView,
   Dimensions,
   View,
+  Alert,
 } from "react-native";
 import LineChartComponent from "../Components/LineChartComponent";
 import mockData from "../Mock/mockData.json";
 import Grafico from "../Components/VisualGraph";
-import SafetyMode from "../Components/safetyMode";
+import SafetyIndicator from "../Components/SafetyIndicator"; // Importa o novo componente
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -18,7 +19,6 @@ interface Record {
   id: number;
   sensort: number;
   servo_vertical: number;
-  secury_mode: boolean;
   created_at: string;
 }
 
@@ -29,6 +29,7 @@ export default function App() {
   const [data, setData] = useState(getLastTenRecords(mockData));
   const [chartComponentKey, setChartComponentKey] = useState(1);
   const [backgroundColor, setBackgroundColor] = useState("lightblue");
+  const [securyMode, setSecuryMode] = useState(false);
 
   const chartTitle = showServoVertical ? "Servo Vertical" : "Tensão";
   const chartData = data.map((record) =>
@@ -39,6 +40,71 @@ export default function App() {
   const toggleChart = () => {
     setShowServoVertical((prevShow) => !prevShow);
     fetchDataFromJson();
+  };
+
+  const confirmToggleSecuryMode = () => {
+    Alert.alert(
+      `Confirmar Modo de Segurança ${securyMode ? "Desativação" : "Ativação"}`,
+      `Deseja ${
+        securyMode ? "desativar" : "ativar"
+      } o Modo de Segurança?`,
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Confirmar",
+          onPress: toggleSecuryMode,
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const toggleSecuryMode = async () => {
+    try {
+      // Altera o valor do securyMode localmente
+      setSecuryMode((prevMode) => !prevMode);
+
+      // Gera um valor aleatório para sensort e servo_vertical (substitua por lógica real)
+      const randomSensort = Math.floor(Math.random() * 5);
+      const randomServoVertical = Math.floor(Math.random() * 180);
+
+      const url =
+        "http://carlosgfkp.pythonanywhere.com/api/sensor-data/create/secury-mode";
+
+      const data = {
+        secury_mode: !securyMode, // Altere aqui conforme necessário
+      };
+
+      // Envia a requisição POST para o servidor
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const jsonData = await response.json();
+      console.log("Data sent successfully:", jsonData);
+
+      // Adiciona um alerta para informar o usuário sobre a alteração no modo de segurança
+      Alert.alert(
+        "Modo de Segurança",
+        `Modo de segurança ${
+          securyMode ? "desativado" : "ativado"
+        } com sucesso!`
+      );
+    } catch (error: any) {
+      console.error("Error sending data:", error.message);
+      Alert.alert("Erro", "Erro ao enviar dados para o servidor");
+    }
   };
 
   const fetchDataFromJson = () => {
@@ -65,7 +131,9 @@ export default function App() {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, { backgroundColor }]}>
+    <ScrollView
+      contentContainerStyle={[styles.container, { backgroundColor }]}
+    >
       <View style={styles.header}>
         <Text style={styles.headerText}>Monitoramento de Placa Solar</Text>
       </View>
@@ -88,11 +156,22 @@ export default function App() {
           />
 
           <View style={styles.buttonContainer}>
-            <SafetyMode/>
             <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
               <Text style={styles.toggleButtonText}>
                 {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
               </Text>
+            </TouchableOpacity>
+
+            {/* Adiciona o indicador de segurança */}
+
+            <TouchableOpacity
+              style={styles.toggleButton}
+              onPress={confirmToggleSecuryMode}
+            >
+              <Text style={styles.toggleButtonText}>
+                Modo Segurança
+              </Text>
+              <SafetyIndicator active={securyMode} />
             </TouchableOpacity>
           </View>
         </View>
@@ -150,14 +229,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
-    gap: 60
+    gap: 20
   },
   toggleButton: {
     backgroundColor: "lightblue",
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 5,
-    width: 160
+    width: 160,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
   toggleButtonText: {
     fontSize: 16,
