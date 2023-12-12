@@ -3,17 +3,19 @@
 from django.db import migrations, models
 import django.utils.timezone
 
-
 class Migration(migrations.Migration):
 
+    # Dependencies on previous migrations
     dependencies = [
-        ('app', '0001_initial'),
+        ('app', '0001_initial'),  # Dependency on an initial migration in the 'app' app
     ]
 
+    # Operations to be performed during migration
     operations = [
+        # Adding a new field 'created_at' to the 'SensorData' model
         migrations.AddField(
-            model_name='sensordata',
-            name='created_at',
-            field=models.DateTimeField(blank=True, default=django.utils.timezone.now),
+            model_name='sensordata',  # Model to which the field is added
+            name='created_at',  # Field name being added
+            field=models.DateTimeField(blank=True, default=django.utils.timezone.now),  # DateTimeField with default value set to current time
         ),
     ]

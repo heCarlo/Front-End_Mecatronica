@@ -3,20 +3,22 @@
 import django.utils.timezone
 from django.db import migrations, models
 
-
 class Migration(migrations.Migration):
 
+    # Dependencies on previous migrations
     dependencies = [
-        ('app', '0002_sensordata_created_at'),
+        ('app', '0002_sensordata_created_at'),  # Dependency on '0002_sensordata_created_at' migration in the 'app' app
     ]
 
+    # Operations to be performed during migration
     operations = [
+        # Creating a new model named 'SecuryMode'
         migrations.CreateModel(
-            name='SecuryMode',
+            name='SecuryMode',  # Name of the new model
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('secury_mode', models.BooleanField()),
-                ('created_at', models.DateTimeField(blank=True, default=django.utils.timezone.now)),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # Auto-generated primary key field
+                ('secury_mode', models.BooleanField()),  # BooleanField for security mode
+                ('created_at', models.DateTimeField(blank=True, default=django.utils.timezone.now)),  # DateTimeField with default value as current time
             ],
         ),
     ]

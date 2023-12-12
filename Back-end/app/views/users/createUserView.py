@@ -4,15 +4,18 @@ from rest_framework import status
 from app.models.users.userEntity import UserEntity
 from app.serializers.userSerializer import UserEntitySerializer
 
-class CreateUserView (generics.CreateAPIView):
+class CreateUserView(generics.CreateAPIView):
+    # Defines a view for creating a UserEntity instance using generics.CreateAPIView
     queryset = UserEntity.objects.all()
     serializer_class = UserEntitySerializer
 
     def create(self, request, *args, **kwargs):
         try:
+            # Attempts to serialize the incoming data and save it as a UserEntity instance
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
+            # Handles exceptions that might occur during serialization or saving
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

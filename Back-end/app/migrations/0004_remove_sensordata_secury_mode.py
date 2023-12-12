@@ -2,16 +2,18 @@
 
 from django.db import migrations
 
-
 class Migration(migrations.Migration):
 
+    # Dependencies on previous migrations
     dependencies = [
-        ('app', '0003_securymode'),
+        ('app', '0003_securymode'),  # Dependency on '0003_securymode' migration in the 'app' app
     ]
 
+    # Operations to be performed during migration
     operations = [
+        # Removing the field 'secury_mode' from the 'SensorData' model
         migrations.RemoveField(
-            model_name='sensordata',
-            name='secury_mode',
+            model_name='sensordata',  # Model from which the field is removed
+            name='secury_mode',  # Name of the field being removed
         ),
     ]

@@ -2,6 +2,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from datetime import datetime
 
+# Defines the request body schema for sensor data
 sensor_data_request_body = openapi.Schema(
     type=openapi.TYPE_OBJECT,
     properties={
@@ -12,6 +13,7 @@ sensor_data_request_body = openapi.Schema(
     required=['sensort', 'servo_vertical', 'secury_mode']
 )
 
+# Defines the response properties for sensor data
 sensor_data_response_properties = {
     'id': openapi.Schema(type=openapi.TYPE_INTEGER),
     'sensort': openapi.Schema(type=openapi.TYPE_NUMBER),
@@ -20,6 +22,7 @@ sensor_data_response_properties = {
     'created_at': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_DATETIME),
 }
 
+# Defines various response statuses and their schemas
 sensor_data_responses = {
     201: 'Data received successfully!',
     200: openapi.Schema(
@@ -35,6 +38,7 @@ sensor_data_responses = {
     500: 'Error processing data',
 }
 
+# Defines Swagger schemas for different HTTP methods
 receive_sensor_data_post_schema = swagger_auto_schema(
     request_body=sensor_data_request_body,
     responses=sensor_data_responses,
