@@ -1,27 +1,32 @@
-const fs = require('fs');
-const fetch = require('node-fetch');
+const fs = require('fs'); // Importing the file system module
+const fetch = require('node-fetch'); // Importing node-fetch to make API requests
 
+/**
+ * Function to fetch data from an API endpoint and save it to a file.
+ */
 const fetchDataAndSaveToFile = async () => {
   try {
+    // Fetch data from the API endpoint
     const response = await fetch('http://carlosgfkp.pythonanywhere.com/api/sensor-data/');
 
     if (!response.ok) {
-      throw new Error('Erro na requisição');
+      throw new Error('Error in request');
     }
 
+    // Parse the JSON response
     const jsonData = await response.json();
     
-    // Salva os dados obtidos no arquivo mockData.json
+    // Save the obtained data to the file named mockData.json
     const jsonString = JSON.stringify(jsonData, null, 2);
     fs.writeFileSync('mockData.json', jsonString, 'utf-8');
 
-    console.log('Dados obtidos e salvos em mockData.json');
+    console.log('Data obtained and saved in mockData.json');
   } catch (error) {
-    console.error('Erro ao obter dados da API:', error.message);
+    console.error('Error fetching data from the API:', error.message);
   }
 };
 
-// Chama a função fetchDataAndSaveToFile a cada segundo
+// Call the fetchDataAndSaveToFile function every second using setInterval
 setInterval(() => {
   fetchDataAndSaveToFile();
 }, 1000);

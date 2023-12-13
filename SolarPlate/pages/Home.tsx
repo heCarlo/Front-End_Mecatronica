@@ -22,7 +22,11 @@ interface Record {
   created_at: string;
 }
 
+/**
+ * Main component for the application.
+ */
 export default function App() {
+  // State variables initialization
   const [showServoVertical, setShowServoVertical] = useState(true);
   const [data, setData] = useState(mockData);
   const [chartComponentKey, setChartComponentKey] = useState(1);
@@ -30,30 +34,33 @@ export default function App() {
   const [securyMode, setSecuryMode] = useState(false);
   const [initialServoVertical, setInitialServoVertical] = useState(0);
 
-  const chartTitle = showServoVertical ? "Servo Vertical" : "Tensão";
+  // Dynamic data for the chart
+  const chartTitle = showServoVertical ? "Servo Motor Angle" : "Voltage";
   const chartData = data.map((record) =>
     showServoVertical ? record.servo_vertical : record.sensort
   );
   const chartXData = data.map((record) => record.created_at);
 
+  // Toggles between displaying Servo Motor and Voltage in the chart
   const toggleChart = () => {
     setShowServoVertical((prevShow) => !prevShow);
     fetchDataFromJson();
   };
 
+  // Confirms the toggle of the security mode with an alert
   const confirmToggleSecuryMode = () => {
     Alert.alert(
-      `Confirmar Modo de Segurança ${securyMode ? "Desativação" : "Ativação"}`,
-      `Deseja ${
-        securyMode ? "desativar" : "ativar"
-      } o Modo de Segurança?`,
+      `Confirm Security Mode ${securyMode ? "Deactivation" : "Activation"}`,
+      `Do you want to ${
+        securyMode ? "deactivate" : "activate"
+      } the Security Mode?`,
       [
         {
-          text: "Cancelar",
+          text: "Cancel",
           style: "cancel",
         },
         {
-          text: "Confirmar",
+          text: "Confirm",
           onPress: toggleSecuryMode,
         },
       ],
@@ -61,6 +68,7 @@ export default function App() {
     );
   };
 
+  // Toggles the security mode and sends a request to update it
   const toggleSecuryMode = async () => {
     try {
       setSecuryMode((prevMode) => !prevMode);
@@ -87,54 +95,59 @@ export default function App() {
       console.log("Data sent successfully:", jsonData);
 
       Alert.alert(
-        "Modo de Segurança",
-        `Modo de segurança ${
-          securyMode ? "desativado" : "ativado"
-        } com sucesso!`
+        "Security Mode",
+        `Security mode ${
+          securyMode ? "deactivated" : "activated"
+        } successfully!`
       );
     } catch (error: any) {
       console.error("Error sending data:", error.message);
-      Alert.alert("Erro", "Erro ao enviar dados para o servidor");
+      Alert.alert("Error", "Error sending data to the server");
     }
   };
 
+  // Fetches data from a JSON source
   const fetchDataFromJson = () => {
-    const newData = [...mockData]; // Criar uma cópia da array para evitar mutações inesperadas
+    const newData = [...mockData]; // Create a copy of the array to avoid unexpected mutations
     setData(newData);
     setChartComponentKey((prevKey) => prevKey + 1);
 
-    // Atualiza o valor inicial de servoVertical
+    // Update the initial value of servoVertical
     if (newData.length > 0) {
       setInitialServoVertical(newData[0].servo_vertical);
     }
   };
 
+  // useEffect hook to fetch data when the component mounts
   useEffect(() => {
     fetchDataFromJson();
   }, []);
 
+  // useEffect hook to fetch data at intervals
   useEffect(() => {
     const intervalId = setInterval(fetchDataFromJson, 1000);
     return () => clearInterval(intervalId);
   }, []);
 
+  // useEffect hook to update background color based on time
   useEffect(() => {
-    const hora = new Date().getHours();
-    const isNoite = hora < 6 || hora >= 18;
+    const hour = new Date().getHours();
+    const isNight = hour < 6 || hour >= 18;
 
-    setBackgroundColor(isNoite ? "darkblue" : "lightblue");
+    setBackgroundColor(isNight ? "darkblue" : "lightblue");
   }, []);
 
+  // Rendering the UI components
   return (
     <ScrollView
       contentContainerStyle={[styles.container, { backgroundColor }]}
     >
       <View style={styles.header}>
-        <Text style={styles.headerText}>Monitoramento de Placa Solar</Text>
+        <Text style={styles.headerText}>Solar Panel Monitoring</Text>
       </View>
 
       <View style={styles.headerContainer}>
-        {/* Passa initialServoVertical como propriedade para o componente Grafico */}
+        {/* Pass initialServoVertical as a property to the Grafico component */}
         <Grafico servo_vertical={initialServoVertical} />
       </View>
 
@@ -154,7 +167,7 @@ export default function App() {
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.toggleButton} onPress={toggleChart}>
               <Text style={styles.toggleButtonText}>
-                {showServoVertical ? "Observar Tensão" : "Observar Angulação"}
+                {showServoVertical ? "View Voltage" : "View Angle"}
               </Text>
             </TouchableOpacity>
 
@@ -162,7 +175,7 @@ export default function App() {
               style={styles.toggleButton}
               onPress={confirmToggleSecuryMode}
             >
-              <Text style={styles.toggleButtonText}>Modo Segurança</Text>
+              <Text style={styles.toggleButtonText}>Security Mode</Text>
               <SafetyIndicator active={securyMode} />
             </TouchableOpacity>
           </View>
@@ -172,6 +185,9 @@ export default function App() {
   );
 }
 
+/**
+ * Styles for the components in the App.
+ */
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,

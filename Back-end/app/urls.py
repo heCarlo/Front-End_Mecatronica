@@ -4,7 +4,15 @@ from app.views.users.deleteUserView import DeleteUserView
 from app.views.users.getUserView import GetUserView
 from app.views.users.listUserView import ListUserView
 from app.views.users.updateUserView import UpdateUserView
-from app.views.sensors.receiveSensorDataView import ReceiveSensorDataGetByIdView, ReceiveSensorDataPostView, ReceiveSensorDataGetView, ReceiveSensorDataPutView, ReceiveSensorDataDeleteView, SecuryModeCreateView, SecuryModeRetrieveUpdateDestroyView
+from app.views.sensors.receiveSensorDataView import (
+    ReceiveSensorDataGetByIdView,
+    ReceiveSensorDataPostView,
+    ReceiveSensorDataGetView,
+    ReceiveSensorDataPutView,
+    ReceiveSensorDataDeleteView,
+    SecuryModeCreateView,
+    SecuryModeRetrieveUpdateDestroyView,
+)
 
 urlpatterns = [
     # Routes for users

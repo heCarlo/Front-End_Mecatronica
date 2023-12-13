@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 
+// Component representing a Safety Indicator
 const SafetyIndicator = ({ active }: { active: boolean }) => {
+  // State to manage visibility of the indicator
   const [visible, setVisible] = useState(true);
 
+  // Effect to toggle visibility every 500ms (adjustable as needed)
   useEffect(() => {
-    // Atualiza a visibilidade a cada 500ms (pode ser ajustado conforme necessário)
     const intervalId = setInterval(() => {
       setVisible((prevVisible) => !prevVisible);
     }, 500);
@@ -13,10 +15,12 @@ const SafetyIndicator = ({ active }: { active: boolean }) => {
     return () => clearInterval(intervalId);
   }, []);
 
+  // If the safety mode is inactive, return null (don't render anything)
   if (!active) {
-    return null; // Se o modo de segurança não estiver ativo, não renderiza nada
+    return null;
   }
 
+  // Render the Safety Indicator view
   return (
     <View
       style={[
@@ -27,6 +31,7 @@ const SafetyIndicator = ({ active }: { active: boolean }) => {
   );
 };
 
+// Styles for the SafetyIndicator component
 const styles = StyleSheet.create({
   indicator: {
     width: 10,
@@ -35,8 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     marginLeft: 10,
     display: "flex",
-    flexDirection: "row"
-
+    flexDirection: "row",
   },
 });
 

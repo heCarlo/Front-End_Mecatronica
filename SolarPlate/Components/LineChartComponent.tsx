@@ -10,6 +10,7 @@ import {
   Dimensions,
 } from "react-native";
 
+// Interface defining props for the LineChartComponent
 interface LineChartProps {
   yAxisLabel: string;
   yAxisSuffix: string;
@@ -20,6 +21,7 @@ interface LineChartProps {
   titleStyle?: StyleProp<TextStyle>;
 }
 
+// Configuration for the LineChart appearance and behavior
 const chartConfig = {
   backgroundGradientFrom: "#f0f0f0",
   backgroundGradientTo: "#f0f0f0",
@@ -46,6 +48,7 @@ const chartConfig = {
   },
 };
 
+// Functional component for rendering a Line Chart
 const LineChartComponent: React.FC<LineChartProps> = ({
   yAxisLabel,
   yAxisSuffix,
@@ -55,22 +58,29 @@ const LineChartComponent: React.FC<LineChartProps> = ({
   chartStyle,
   titleStyle,
 }) => {
+  // State to manage chart data
   const [chartData, setChartData] = useState(data);
 
+  // Update chart data based on prop changes
   useEffect(() => {
     setChartData(data.slice(-7));
   }, [data]);
 
-  // Extrai apenas o horário das strings de data
+  // Extract only the time from date strings
   const hours = chartXData
     .map((dateTime) => new Date(dateTime).toLocaleTimeString().slice(0, 5))
     .slice(-7);
 
+  // Extract style properties
   const convertedStyle = StyleSheet.flatten(chartStyle as StyleProp<ViewStyle>);
   const convertedTitleStyle = StyleSheet.flatten(
     titleStyle as StyleProp<TextStyle>
   );
-  const { width:larguraDaTela } = Dimensions.get("window");
+
+  // Get window width
+  const { width: screenWidth } = Dimensions.get("window");
+
+  // Return the LineChartComponent JSX
   return (
     <View style={[styles.chartContainer, convertedStyle]}>
       <Text style={[styles.chartTitle, convertedTitleStyle]}>{chartTitle}</Text>
@@ -83,7 +93,7 @@ const LineChartComponent: React.FC<LineChartProps> = ({
             },
           ],
         }}
-        width={larguraDaTela-(larguraDaTela*0.1)}
+        width={screenWidth - screenWidth * 0.1}
         height={280}
         yAxisLabel={yAxisLabel}
         yAxisSuffix={yAxisSuffix}
@@ -95,20 +105,21 @@ const LineChartComponent: React.FC<LineChartProps> = ({
   );
 };
 
+// Styles for the LineChartComponent
 const styles = StyleSheet.create({
   chartContainer: {
     alignItems: "center",
     marginBottom: 0,
     backgroundColor: "#f0f0f0",
     borderRadius: 10,
-    paddingRight: 30
+    paddingRight: 30,
   },
   chartTitle: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
     color: "#3f51b5",
-    marginLeft: 30
+    marginLeft: 30,
   },
 });
 
