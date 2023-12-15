@@ -56,3 +56,6 @@ O projeto visa criar um sistema de monitoramento avançado para placas solares, 
 ## Considerações Finais
 
 O projeto visa não apenas monitorar as placas solares, mas também melhorar sua eficiência e vida útil, oferecendo uma solução completa de gestão e manutenção. A integração entre Mecatrônica e ADS é essencial para alcançar esses objetivos e garantir um sistema confiável e inovador.
+
+## Você pode conferir os links de acesso no arquivo abaixo:
+https://docs.google.com/document/d/1tlQukfpKsPto5A7hBy7rJlcoYPgdKhTrUpMg7KDdvfc/edit#heading=h.w0ukudnl9u6w
