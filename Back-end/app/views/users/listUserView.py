@@ -5,16 +5,16 @@ from app.models.users.userEntity import UserEntity
 from app.serializers.userSerializer import UserEntitySerializer
 
 class ListUserView(generics.ListAPIView):
-    # Defines a view for listing UserEntity instances using generics.ListAPIView
-    queryset = UserEntity.objects.all()
-    serializer_class = UserEntitySerializer
+    # Define uma view para listar instâncias de UserEntity usando generics.ListAPIView
+    queryset = UserEntity.objects.all()  # Define o conjunto de consultas para todas as instâncias de UserEntity
+    serializer_class = UserEntitySerializer  # Define a classe do serializador para UserEntitySerializer
 
     def list(self, request, *args, **kwargs):
         try:
-            # Attempts to get the queryset, serialize it, and return the data
-            queryset = self.get_queryset()
-            serializer = self.get_serializer(queryset, many=True)
-            return Response(serializer.data)
+            # Tenta obter o queryset, serializá-lo e retornar os dados
+            queryset = self.get_queryset()  # Obtém o queryset
+            serializer = self.get_serializer(queryset, many=True)  # Obtém o serializador
+            return Response(serializer.data)  # Retorna os dados serializados
         except Exception as e:
-            # Handles exceptions that might occur during listing
+            # Trata exceções que podem ocorrer durante a listagem
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

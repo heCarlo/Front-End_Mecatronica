@@ -2,11 +2,11 @@ from rest_framework import serializers
 from app.models.sensors.securyModeEntity import SecuryMode
 
 class SecuryModeSerializer(serializers.ModelSerializer):
-    # Serializer for the SecuryMode model using ModelSerializer from Django Rest Framework
+    # Serializer para o modelo SecuryMode usando ModelSerializer do Django Rest Framework
     class Meta:
-        # Specifies the model to be serialized
+        # Especifica o modelo a ser serializado
         model = SecuryMode
-        # Specifies the fields to be included in the serialized representation
+        # Especifica os campos a serem incluídos na representação serializada
         fields = ['id', 'secury_mode', 'created_at']
-        # Specifies the fields that should be read-only in the serialized representation
+        # Especifica os campos que devem ser somente leitura na representação serializada
         read_only_fields = ['id', 'created_at']

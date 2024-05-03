@@ -2,13 +2,13 @@ from django.db import models
 from django.utils import timezone
 
 class SensorData(models.Model):
-    # Field to store sensor data as a floating-point number
+    # Campo para armazenar os dados do sensor como um número de ponto flutuante
     sensort = models.FloatField()
-    # Field to store vertical servo data as a floating-point number
+    # Campo para armazenar os dados do servo vertical como um número de ponto flutuante
     servo_vertical = models.FloatField()
-    # Field capturing the timestamp of creation, defaults to the current time
+    # Campo para capturar o carimbo de data e hora de criação, padrão para o momento atual
     created_at = models.DateTimeField(default=timezone.now, blank=True)
 
     def __str__(self):
-        # Provides a string representation for instances of this model, including the creation timestamp
+        # Fornece uma representação em string para as instâncias deste modelo, incluindo o carimbo de data e hora de criação
         return f'SensorData - {self.created_at}'

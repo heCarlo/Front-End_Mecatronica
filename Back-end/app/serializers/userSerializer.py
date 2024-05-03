@@ -1,11 +1,10 @@
-# serializers/user_entity_serializer.py
 from rest_framework import serializers
 from app.models.users.userEntity import UserEntity
 
 class UserEntitySerializer(serializers.ModelSerializer):
-    # Serializer for the UserEntity model using ModelSerializer from Django Rest Framework
+    # Serializer para o modelo UserEntity usando ModelSerializer do Django Rest Framework
     class Meta:
-        # Specifies the model to be serialized
+        # Especifica o modelo a ser serializado
         model = UserEntity
-        # Includes all fields from the UserEntity model in the serialized representation
+        # Inclui todos os campos do modelo UserEntity na representação serializada
         fields = '__all__'
